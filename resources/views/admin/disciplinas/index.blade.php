@@ -18,9 +18,18 @@
                 <td>{{$diciplina->cargahr}}</td>
             </tr>
             @empty
-            <tr><td colspan="2">Não existem disciplinas cadastradas</td></tr>
+            <tr>
+                <td colspan="2">Não existem disciplinas cadastradas</td>
+            </tr>
             @endforelse
         </tbody>
     </table>
+    <div class='fixed-action-btn'>
+        <a class='btn-floating btn-large waves-effect waves-light red accent-4' href="{{route('formAdicionar')}}">
+            <i class='large material-icons '>
+                add
+            </i></a>
+    </div>
+
 </section>
 @endSection

@@ -15,7 +15,7 @@ class CreateDisciplinasTable extends Migration
     {
         Schema::create('disciplinas', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100)->unique();
+            $table->string('nome',100);
             $table->string('professor',100);
             $table->integer('cargahr');
             $table->timestamps();

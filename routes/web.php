@@ -14,5 +14,13 @@ use App\Http\Controllers\Admin\DisciplinasController;
 |
 */
 
+Route::redirect('/', '/admin/disciplinas');
 
-Route::get('/',[DisciplinasController::class,'disciplinas']);
+
+Route::prefix('admin')->group(function () {
+    
+    Route::get('disciplinas', [DisciplinasController::class, 'disciplinas'])->name('listaDisciplinas');
+    Route::get('disciplinas/adicionar', [DisciplinasController::class, 'formAdicionar'])->name('formDisciplina');
+    Route::post('disciplinas/adicionar', [DisciplinasController::class, 'adicionar'])->name('formAdicionar');
+
+});
