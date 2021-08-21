@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DisciplinasController;
+use App\Http\Controllers\Admin\DisciplinaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +18,14 @@ Route::redirect('/', '/admin/disciplinas');
 
 
 Route::prefix('admin')->group(function () {
-    
-    Route::get('disciplinas', [DisciplinasController::class, 'disciplinas'])->name('listaDisciplinas');
-    Route::get('disciplinas/adicionar', [DisciplinasController::class, 'formAdicionar'])->name('formDisciplina');
-    Route::post('disciplinas/adicionar', [DisciplinasController::class, 'adicionar'])->name('formAdicionar');
+
+    // Route::get('disciplinas', [DisciplinasController::class, 'disciplinas'])->name('listaDisciplinas');
+    // Route::get('disciplinas/adicionar', [DisciplinasController::class, 'formAdicionar'])->name('formDisciplina');
+    // Route::post('disciplinas/adicionar', [DisciplinasController::class, 'adicionar'])->name('formAdicionar');
+    // Route::delete('disciplinas/{id}', [DisciplinasController::class, 'remover'])->name('formRemover');
+    // Route::get('disciplinas/{id}', [DisciplinasController::class, 'formEditar'])->name('formEditar');
+    // Route::put('disciplinas/{id}', [DisciplinasController::class, 'editar'])->name('editar');
+
+    Route::resource('disciplinas', DisciplinaController::class)->except(['show']);
 
 });

@@ -14,7 +14,10 @@
 
 <body>
     <nav class="green darken-3">
-    <a href="/" class="brand-logo center">CAJUÍ</a>
+        <a href="/" class="brand-logo center">CAJUÍ</a>
+        <ul>
+            <li><a href="{{route('disciplinas.index')}}">Disciplinas</a><a href="#">Professores</a></li>
+        </ul>
     </nav>
     <div class="container ">
         @yield('conteudo-principal')
