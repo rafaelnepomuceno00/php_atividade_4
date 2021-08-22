@@ -15,10 +15,17 @@ class CreateDisciplinasTable extends Migration
     {
         Schema::create('disciplinas', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100);
-            $table->string('professor',100);
+            $table->string('nome', 100);
+            $table->string('curso', 100);
+            $table->boolean('oferta');
+            $table->integer('periodo');
             $table->integer('cargahr');
+
+
+            $table->foreignId('professor_id')->constrained('professores')->onDelete('cascade');
+
             $table->timestamps();
+
         });
     }
 
