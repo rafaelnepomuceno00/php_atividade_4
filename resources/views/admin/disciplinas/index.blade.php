@@ -8,19 +8,32 @@
                 <th>Disciplina</th>
                 <th>Professor</th>
                 <th>Carga Horária</th>
+                <th>Curso</th>
+                <th>Período</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($disciplinas as $diciplina)
             <tr>
                 <td>{{$diciplina->nome}}</td>
-                <td>{{$diciplina->professor}}</td>
+                <td>{{$diciplina->professor->nome}}</td>
                 <td>{{$diciplina->cargahr}}</td>
+                <td>{{$diciplina->curso}}</td>
+                <td>{{$diciplina->periodo}}</td>
                 <td class="right-align">
+
+                    <a href="{{route('disciplinas.show', $diciplina->id)}}">
+
+                        <span>
+                            <i class="material-icons cyan-text">remove_red_eye</i>
+                        </span>
+                    </a>
+
+
                     <a href="{{route('disciplinas.edit', $diciplina->id)}}">
 
                         <span>
-                            <i class="material-icons">edit</i>
+                            <i class="material-icons yellow-text">edit</i>
                         </span>
                     </a>
                     <form action="{{route('disciplinas.destroy', $diciplina->id)}}" method="POST" style="display: inline;">

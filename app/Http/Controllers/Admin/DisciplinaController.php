@@ -7,7 +7,7 @@ use App\Models\Disciplina;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\DisciplinaRequest;
-
+use App\Models\Professor;
 
 class DisciplinaController extends Controller
 {
@@ -18,7 +18,7 @@ class DisciplinaController extends Controller
      */
     public function index()
     {
-        $disciplinas = Disciplina::all();
+        $disciplinas = Disciplina::orderBy('nome', 'asc')->get();
         //teste de recebimento de variáveis
         // dd($disciplinas);
 
@@ -34,8 +34,9 @@ class DisciplinaController extends Controller
     public function create()
     {
         //adicionar
+        $professores = Professor::all();
         $action = route('disciplinas.store');
-        return view('admin.disciplinas.form', compact('action'));
+        return view('admin.disciplinas.form', compact('action', 'professores'));
     }
 
     /**
@@ -54,8 +55,10 @@ class DisciplinaController extends Controller
         $disciplina = new Disciplina();
 
         $disciplina->nome = $request->input('nome');
-        $disciplina->professor = $request->input('professor');
+        $disciplina->professor_id = $request->input('professor_id');
         $disciplina->cargahr = $request->input('cargahr');
+        $disciplina->curso = $request->input('curso');
+        $disciplina->periodo = $request->input('periodo');
 
         $request->session()->flash('sucesso', "Disciplina $request->disciplina inserida com sucesso!");
 
@@ -78,9 +81,10 @@ class DisciplinaController extends Controller
     public function edit($id)
     {
         //FormEditar
+        $professores = Professor::all();
         $disciplina = Disciplina::find($id);
         $action = route('disciplinas.update', $disciplina->id);
-        return view('admin.disciplinas.form', compact('disciplina', 'action'));
+        return view('admin.disciplinas.form', compact('disciplina', 'action','professores'));
     }
 
     /**
@@ -95,8 +99,10 @@ class DisciplinaController extends Controller
         //Editar
         $disciplina = Disciplina::find($id);
         $disciplina->nome = $request->nome;
-        $disciplina->professor = $request->professor;
+        $disciplina->professor_id = $request->professor_id;
         $disciplina->cargahr = $request->cargahr;
+        $disciplina->curso = $request->curso;
+        $disciplina->periodo = $request->periodo;
         $disciplina->save();
 
 
@@ -116,5 +122,11 @@ class DisciplinaController extends Controller
         Disciplina::destroy($id);
         $request->session()->flash('sucesso', "Disciplina excluída com sucesso!");
         return redirect()->route('disciplinas.index');
+    }
+
+    public function show($id){
+
+        $disciplina = Disciplina::find($id);
+        return view('admin.disciplinas.show' ,compact('disciplina'));
     }
 }

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Professor;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\ProfessorRequest;
 class ProfessorController extends Controller
 {
     /**
@@ -14,7 +15,10 @@ class ProfessorController extends Controller
      */
     public function index()
     {
-        return view('admin.professores.index');
+        $professores = Professor::orderBy('nome', 'asc')->get();
+        //teste (ok)
+        // dd($professores);
+        return view('admin.professores.index', compact('professores'));
         //
     }
 
@@ -25,7 +29,9 @@ class ProfessorController extends Controller
      */
     public function create()
     {
-        //
+            //adicionar
+            $action = route('professor.store');
+            return view('admin.professores.form', compact('action'));
     }
 
     /**
@@ -34,9 +40,30 @@ class ProfessorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProfessorRequest $request)
     {
-        //
+     //Metodo adicionar
+
+
+
+        //create object
+        $professor = new Professor();
+
+        $professor->nome = $request->input('nome');
+        $professor->idade = $request->input('idade');
+        $professor->email = $request->input('email');
+        $professor->telefone = $request->input('telefone');
+        $professor->obs = $request->input('obs');
+
+        $request->session()->flash('sucesso', "Professor $request->professor inserido(a) com sucesso!");
+
+
+
+
+        $professor->save();
+
+
+        return redirect()->route('professor.index');
     }
 
     /**
@@ -47,7 +74,7 @@ class ProfessorController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -58,7 +85,10 @@ class ProfessorController extends Controller
      */
     public function edit($id)
     {
-        //
+               //FormEditar
+               $professor = Professor::find($id);
+               $action = route('professor.update', $professor->id);
+               return view('admin.professores.form', compact('professor', 'action'));
     }
 
     /**
@@ -68,9 +98,19 @@ class ProfessorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProfessorRequest $request, $id)
     {
-        //
+    //Editar
+    $professor = Professor::find($id);
+    $professor->nome = $request->nome;
+    $professor->idade = $request->idade;
+    $professor->email = $request->email;
+    $professor->telefone = $request->telefone;
+    $professor->obs = $request->obs;
+    $professor->save();
+
+    $request->session()->flash('sucesso',  "Professor(a) atualizada com sucesso!");
+    return redirect()->route('professor.index');
     }
 
     /**
@@ -79,8 +119,11 @@ class ProfessorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id,  Request $request)
     {
-        //
+        //Remover
+        Professor::destroy($id);
+        $request->session()->flash('sucesso', "Professor(a) excluída com sucesso!");
+        return redirect()->route('professor.index');
     }
 }

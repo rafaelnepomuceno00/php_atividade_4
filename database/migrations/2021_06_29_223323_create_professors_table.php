@@ -17,9 +17,9 @@ class CreateProfessorsTable extends Migration
             $table->id();
             $table->string('nome', 120);
             $table->integer('idade');
-            $table->boolean('dfc_vs');
             $table->string('email', 80);
             $table->double('telefone');
+            $table->longText('obs',150);
 
             $table->timestamps();
         });

@@ -17,7 +17,6 @@ class CreateDisciplinasTable extends Migration
             $table->id();
             $table->string('nome', 100);
             $table->string('curso', 100);
-            $table->boolean('oferta');
             $table->integer('periodo');
             $table->integer('cargahr');
 

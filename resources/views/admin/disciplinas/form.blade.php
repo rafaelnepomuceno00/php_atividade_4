@@ -5,7 +5,7 @@
 
         @csrf
         @isset($disciplina)
-            @method('PUT')
+        @method('PUT')
         @endisset
         <div class="input-field">
             <label for="nome">Disciplina</label>
@@ -15,9 +15,23 @@
             @enderror
         </div>
         <div class="input-field">
-            <label for="professor">Professor</label>
-            <input type="text" name="professor" id="professor" value="{{old('professor',$disciplina->professor?? '')}}" />
-            @error('professor')
+            <label for="professor_id">Professor</label>
+            <select name="professor_id" id="professor_id">
+                <option value="" disabled selected> Selecione um professor</option>
+                @foreach ($professores as $professor)
+                <option value="{{$professor->id}}" {{old('professor_id', $disciplina->professor->id ?? '')== $professor->id ? 'selected' : ''}}>
+                    {{$professor->nome}}
+                </option>
+                @endforeach
+            </select>
+            @error('professor_id')
+            <span class="red-text text-accent-3">{{$message}}</span>
+            @enderror
+        </div>
+        <div class="input-field">
+            <label for="curso">Curso</label>
+            <input type="text" name="curso" id="curso" value="{{old('curso',$disciplina->curso ?? '')}}" />
+            @error('curso')
             <span class="red-text text-accent-3">{{$message}}</span>
             @enderror
         </div>
@@ -25,6 +39,13 @@
             <label for="cargahr">Carga Horária</label>
             <input type="text" name="cargahr" id="cargahr" value="{{old('cargahr',$disciplina->cargahr ?? '')}}" />
             @error('cargahr')
+            <span class="red-text text-accent-3">{{$message}}</span>
+            @enderror
+        </div>
+        <div class="input-field">
+            <label for="periodo">Periodo</label>
+            <input type="number" name="periodo" id="periodo" value="{{old('periodo',$disciplina->periodo ?? '')}}" />
+            @error('periodo')
             <span class="red-text text-accent-3">{{$message}}</span>
             @enderror
         </div>
