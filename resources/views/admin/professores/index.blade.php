@@ -1,6 +1,10 @@
 @extends('admin.layouts.principal')
 
 @section('conteudo-principal')
+
+<!-- Pesquisa -->
+
+
 <section class="section">
     <table>
         <thead>
@@ -21,8 +25,14 @@
                 <td>{{$professor->telefone}}</td>
                 <td>{{$professor->obs}}</td>
                 <td class="right-align">
-                    <a href="{{route('professor.edit', $professor->id)}}">
 
+                    <a href="{{route('professor.fotos.index', $professor->id)}}">
+                        <span>
+                            <i class="material-icons black-text">insert_photo</i>
+                        </span>
+                    </a>
+
+                    <a href="{{route('professor.edit', $professor->id)}}">
                         <span>
                             <i class="material-icons">edit</i>
                         </span>

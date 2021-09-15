@@ -16,14 +16,32 @@ class DisciplinaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $disciplinas = Disciplina::orderBy('nome', 'asc')->get();
+
+
+
+
+        $disciplinas = Disciplina::orderBy('nome', 'asc');
         //teste de recebimento de variáveis
-        // dd($disciplinas);
+        // dd($request);
 
+        $professor_id =$request->professor_id;
+        $nome = $request->disciplina;
 
-        return view('admin.disciplinas.index', compact('disciplinas'));
+        if ($request->professor_id) {
+            $disciplinas->where('professor_id', $request->professor_id);
+        }
+
+        if ($request->disciplina) {
+            $disciplinas->where('nome', 'like', "%$request->disciplina%");
+        }
+
+        $disciplinas = $disciplinas->paginate(env('PAGINACAO'))->withQueryString();
+
+        $professores = Professor::orderBy('nome')->get();
+
+        return view('admin.disciplinas.index', compact('disciplinas', 'professores', 'nome', 'professor_id'));
     }
 
     /**
@@ -84,7 +102,7 @@ class DisciplinaController extends Controller
         $professores = Professor::all();
         $disciplina = Disciplina::find($id);
         $action = route('disciplinas.update', $disciplina->id);
-        return view('admin.disciplinas.form', compact('disciplina', 'action','professores'));
+        return view('admin.disciplinas.form', compact('disciplina', 'action', 'professores'));
     }
 
     /**
@@ -124,9 +142,10 @@ class DisciplinaController extends Controller
         return redirect()->route('disciplinas.index');
     }
 
-    public function show($id){
+    public function show($id)
+    {
 
         $disciplina = Disciplina::find($id);
-        return view('admin.disciplinas.show' ,compact('disciplina'));
+        return view('admin.disciplinas.show', compact('disciplina'));
     }
 }
